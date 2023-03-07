@@ -16,16 +16,16 @@ io.on('connection', (socket) => {
       if(nguoiGui[i].id == socket.id) {
           let soLanNoiBayCuaNguoiHienTai = nguoiGui[i].soLanNoiBay
           if(soLanNoiBayCuaNguoiHienTai < 3){
+            soLanNoiBayCuaNguoiHienTai++
             if(msg == 'fuckyou' || msg == 'fuck you' || msg == 'fuck'){
-              soLanNoiBayCuaNguoiHienTai++
-              io.emit('chat message','***');
               nguoiGui[i].soLanNoiBay = soLanNoiBayCuaNguoiHienTai;
+              io.emit('chat message','***');
             }else {
               io.emit('chat message', msg)
             }
           }else{
             io.emit('chat message', {thongBao: "Tai khoan cua ban da bi khoa", idNguoiBiKhoa: socket.id})
-            document.getElementById("")
+            nguoiGui[i].soLanNoiBay = 0
           }
         }
       }

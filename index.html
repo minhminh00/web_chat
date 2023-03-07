@@ -35,7 +35,7 @@
       }
     
       #form>button {
-        background: #4f59e4;
+        background: #333;
         border: none;
         padding: 0 1rem;
         margin: 0.25rem;
@@ -71,7 +71,8 @@
   <body>
     <ul id="messages"></ul>
     <form id="form" action="">
-      <input id="input" autocomplete="off" /><button>Send</button>
+    <input id="input" autocomplete="off" />
+    <button id="sendBtn">Send</button>
     </form>
     <script src="/socket.io/socket.io.js"></script>
 
@@ -81,25 +82,35 @@
       var messages = document.getElementById('messages');
       var form = document.getElementById('form');
       var input = document.getElementById('input');
+      var sendBtn = document.getElementById('sendBtn');
+      
 
       form.addEventListener('submit', function(e) {
         e.preventDefault();
         if (input.value) {
-          socket.emit('chat message',input.value);
+          socket.emit('chat message', input.value);
           input.value = '';
         }
       });
 
-      socket.on('chat message', function (msg) {
-      if (msg.idNguoiBiKhoa == socket.id) {
-        alert(msg.thongBao)
-      } else {
+      socket.on('chat message', function(msg) {
+        if (msg.idNguoiBiKhoa == socket.id){
+          alert (msg.thongBao)
+          sendBtn.disabled = true
+          sendBtn.style.backgroundColor = "grey"
+          sendBtn.style.color = "grey"
+          setTimeout(() => {
+           sendBtn.disabled = false
+           sendBtn.style.backgroundColor = "black"
+           sendBtn.style.color = "white"
+          }, 10000);
+
+        }else{ 
         var item = document.createElement('li');
         item.textContent = msg;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
-      }
-    });
+      }});
     </script>
   </body>
 </html>
